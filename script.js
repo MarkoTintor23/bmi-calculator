@@ -1,28 +1,37 @@
-const heightInput = document.querySelector("#height");
-const weightInput = document.querySelector("#weight");
-const computeBtn = document.querySelector("#compute-btn");
-const bmiValue = document.querySelector("#bmi-value");
-const bmiCondition = document.querySelector("#bmi-condition");
+class Bmi {
+  constructor() {
+    this.heightInput = document.querySelector("#height");
+    this.weightInput = document.querySelector("#weight");
+    this.computeBtn = document.querySelector("#compute-btn");
+    this.bmiValue = document.querySelector("#bmi-value");
+    this.bmiCondition = document.querySelector("#bmi-condition");
 
-computeBtn.addEventListener("click", function (event) {
-  event.preventDefault();
-  let height = parseFloat(heightInput.value);
-  let weight = parseFloat(weightInput.value);
-
-  const bmi = (weight / (height / 100) ** 2).toFixed(2);
-
-  bmiValue.textContent = bmi;
-  if (!height || !weight || height <= 0 || weight <= 0) {
-    bmiValue.textContent = "--";
-    bmiCondition.textContent = "Please enter valid height and weight!";
-    return;
+    this.addEventListeners();
+  }
+  addEventListeners() {
+    this.computeBtn.addEventListener("click", (e) => this.compute(e));
   }
 
-  if (bmi < 18.5) {
-    bmiCondition.textContent = "Underweight";
-  } else if (bmi >= 18.5 && bmi <= 24.99) {
-    bmiCondition.textContent = "Normal";
-  } else if (bmi >= 25) {
-    bmiCondition.textContent = "Overweight";
+  compute(event) {
+    event.preventDefault();
+    let height = parseFloat(this.heightInput.value);
+    let weight = parseFloat(this.weightInput.value);
+
+    if (!height || !weight || height <= 0 || weight <= 0) {
+      this.bmiValue.textContent = "--";
+      this.bmiCondition.textContent = "Please enter valid height and weight!";
+      return;
+    }
+    const bmi = (weight / (height / 100) ** 2).toFixed(2);
+    this.bmiValue.textContent = bmi;
+    if (bmi < 18.5) {
+      this.bmiCondition.textContent = "Underweight";
+    } else if (bmi >= 18.5 && bmi <= 24.99) {
+      this.bmiCondition.textContent = "Normal";
+    } else if (bmi >= 25) {
+      this.bmiCondition.textContent = "Overweight";
+    }
   }
-});
+}
+
+const bmiPerson1 = new Bmi();
